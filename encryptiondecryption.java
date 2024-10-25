@@ -72,7 +72,7 @@ public class C_option {
 
 
     private static String decrypt(Scanner x) {
-        System.out.println("Enter an encryption key (Integer between 26 and -26): ");
+        System.out.println("Enter an decryption key (Integer between 26 and -26): ");
         int shift = x.nextInt();
         x.nextLine();  // clear the buffer
         if (shift > 26 || shift < -26) {
@@ -99,3 +99,4 @@ public class C_option {
     }
 
 }
+
