@@ -45,11 +45,11 @@ public class C_option {
     private static String encrypt(Scanner x) {
         System.out.println("Enter an encryption key (Integer between 26 and -26): ");
         int shift = x.nextInt();
-        x.nextLine();  
+        x.nextLine();  // clear the buffer
         if (shift > 26 || shift < -26) {
             System.out.println("Error: shift value is outside the valid range, returning to submenu");
             C_Submenu();
-            return "";  
+            return "";  // returning empty string if invalid input
         }
         
         System.out.println("Please enter encryption text: ");
@@ -63,7 +63,7 @@ public class C_option {
                 int new_AscII = c + shift;
                 result += (char)((new_AscII)% 128);
             } else {
-                result += c;  
+                result += c;  // non-letter characters stay the same
             }
         }
         return result;
@@ -92,10 +92,10 @@ public class C_option {
                 int new_AscII = c - shift;
                 result += (char)((new_AscII)% 128);
             } else {
-                result += c;  
+                result += c;  // non-letter characters stay the same
             }
         }
         return result;
     }
-    
+
 }
