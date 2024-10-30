@@ -1,5 +1,3 @@
-package A_package;
-   
    /**
      * Calculates the median of a sorted array.
      *
@@ -83,11 +81,3 @@ package A_package;
         System.out.println("Geometric Mean of the array is: " + geometric_mean);
         System.out.println("Harmonic Mean of the array is: " + harmonic_func);
     }
-
-    /**
-     * Placeholder for a method to clear the terminal (not implemented here).
-     */
-    private static void flush_terminal() {
-        // Implement this method if terminal clearing is required
-    }
-}
