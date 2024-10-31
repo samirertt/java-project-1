@@ -9,13 +9,26 @@ import java.util.Arrays;
  */
 public class javaproject{
     
-    //TICTACTOE GLOBALS
-    static int[] player1Positions = new int[9]; //holds the positions chosen by X (max 9 moves) 
-	static int[] player2Positions = new int[9]; //holds the positions chosen by O (max 9 moves) 
+	/**
+     * Array to hold the positions chosen by Player 1 (X)
+     */
+	static int[] player1Positions = new int[9]; //holds the positions chosen by X (max 9 moves) 
+	/**
+     * Array to hold the positions chosen by Player 2 (O)
+     */
+	static int[] player2Positions = new int[9]; //holds the positions chosen by O (max 9 moves)
+	/**
+     * Tracks the number of positions taken by Player 1 (X)
+     */
 	static int player1PositionCount = 0; //tracks how many positions player 1 (X) has taken
+	 /**
+     * Tracks the number of positions taken by Player 2 (O)
+     */
 	static int player2PositionCount = 0; //tracks how many positions player 2 (O) has taken
+	/**
+     * Tracks the total number of turns taken in the game
+     */
 	static int turnCount = 0; // tracks the total number of turns taken in game
-	
 
     // made the scanner object global because we are using it frequently
     private static Scanner myScanner = new Scanner(System.in);
@@ -73,8 +86,10 @@ public class javaproject{
             {
                 switch (userinput) {
                     case 1:
+                        flush_terminal();
                         System.out.println("Statistical Information about an array");
                         int size_of_array =-1;
+
                         while(size_of_array <=0)
                         {
                             System.out.println("Positive integers only");
@@ -109,66 +124,64 @@ public class javaproject{
                                 flag = false;
                         }
                         statistical_func(arr, size_of_array);
-                        System.out.println("Enter b for main menu ");
+                        System.out.println("Enter 1 for main menu ");
                         System.out.println("OR Enter anything to Terminate");
                         String user_main_menu = myScanner.next();
-                        if(user_main_menu.equalsIgnoreCase("b"))
+                        if(user_main_menu.equalsIgnoreCase("1"))
                         {
                             flush_terminal();
                             break;
                         }
+                        flush_terminal();
                         return;
                     case 2:
                     
                         flush_terminal();
                         System.out.println("Matrix Operations");
-                        int row_mat = -1;
-                        while(row_mat <= 0)
-                        {
-                            System.out.println("Please enter the row size of the matrix (positive number)");
-                            row_mat = myScanner.nextInt();
-                        }
-                        int col_mat = -1;
-                        while(col_mat <= 0)
-                        {
-                            System.out.println("Please enter the column size of the matrix (positive number)");
-                            col_mat = myScanner.nextInt();
-                        }
 
-
-                        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+                        int chose = displaySubmenu_chose();
                         System.out.println();
-                        double[][] mat1 = new double[row_mat][2*col_mat];
-                        mat1 = mat_filling(row_mat, col_mat);
-                        
+                        boolean repeatOperations = true;
 
-                        //mat2
-                        int row_mat2 = -1;
-                        while(row_mat2 <= 0)
+                        while(repeatOperations)
                         {
-                            System.out.println("Please enter the row size of the matrix 2 (positive number)");
-                            row_mat2 = myScanner.nextInt();
-                        }
+                            switch (chose) 
+                            {
+                                case 1:
+                                    flush_terminal();
+                                    mat_transpose();
+                                    break;
+                                case 2:
+                                    flush_terminal();
+                                    mat_multiple();
+                                    break;
+                                case 3:
+                                    flush_terminal();
+                                    element_wise_multiple();
+                                    break;
+                                case 4:
+                                    flush_terminal(); 
+                                    mat_inverse_main();
+                                    break;    
+                                case 5: 
+                                    repeatOperations = false;
+                                    flush_terminal();
+                                    break;
 
-                        int col_mat2 = -1;
-                        while(col_mat2 <= 0)
-                        {
-                            System.out.println("Please enter the column size of the matrix  2 (positive number)");
-                            col_mat2 = myScanner.nextInt();
+                                default:
+                                    break;
+                            }
+                            if(repeatOperations)
+                            {
+                                System.out.println();
+                                chose = displaySubmenu_chose();
+                            }
                         }
-
-                        System.out.printf("the size of row is %d and column is %d ",row_mat2,col_mat2);
                         System.out.println();
-                        double[][] mat2 = new double[row_mat2][2*col_mat2];
-                        mat2 = mat_filling(row_mat2, col_mat2);
-
-
-                        mat_transpose(mat1,mat2,row_mat,col_mat,row_mat2,col_mat2);
-                        mat_multiple(mat1,mat2,row_mat,col_mat,row_mat2,col_mat2);
-                        element_wise_multiple(mat1,mat2,row_mat,col_mat,row_mat2,col_mat2);
-                        mat_inverse_main(mat1, mat2, row_mat, col_mat, row_mat2, col_mat2);
+                        flush_terminal();
                         break;
                     case 3:
+
                         flush_terminal();
                         myScanner.nextLine();
                         System.out.println("Text Encryption/Decryption");
@@ -386,8 +399,8 @@ public class javaproject{
 
     //ENCRYPTION & DECRYPTION
     /**
-    *The submenu of the option C 
-    */
+     * Submenu for the 'C' option that allows user to choose encryption or decryption.
+     */
     private static void C_Submenu(){
         System.out.println("Select an option from the C submenu below: ");
         System.out.println("[a] Encyryption");
@@ -397,49 +410,56 @@ public class javaproject{
     }
     
     /**
-     * This function makes the encryption of the entered text wıthout encrypt the numeric values 
-     * @return returns the encrpyted value
-    */
+     * Encrypts the input text by shifting alphabetic characters by a specified key,
+     * while leaving numeric values unchanged. Non-alphabetic characters are unaffected.
+     * 
+     * @return the encrypted text, or an empty string if the key is out of range or input is invalid
+     */
     private static String encrypt() {
-        
         int shift = 0;
-        try{
+        try {
             System.out.println("Enter an encryption key (Integer between 26 and -26): ");
             shift = myScanner.nextInt();
-            myScanner.nextLine();  // clear the buffer
+            myScanner.nextLine(); // clear the buffer
+    
+            // Check if shift is within the valid range
             if (shift > 26 || shift < -26) {
                 System.out.println("Error: shift value is outside the valid range, returning to submenu");
                 C_Submenu();
-                return "";  // returning empty string if invalid input
+                return ""; // Return empty string if shift is invalid
+            } else if (shift == 0) {
+                System.out.println("You entered 0, so no encryption will be applied.");
+                return ""; // Return empty string if no shift
             }
-        }catch(InputMismatchException e)
-        {
+        } catch (InputMismatchException e) {
             System.out.println("Invalid input!!");
+            return ""; // Return empty string if input is invalid
         }
     
-        System.out.println("Please enter encryption text: ");
+        System.out.println("Please enter text to encrypt: ");
         String text = myScanner.nextLine();
         
         String result = "";
+        // Encrypt each character in the text
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
-    
             if (Character.isLetter(c)) {
-                int new_AscII = c + shift;
-                result += (char)((new_AscII)% 128);
+                char base = Character.isLowerCase(c) ? 'a' : 'A';
+                result += (char)((((c - base + shift) + 26) % 26) + base); // Apply Caesar shift
             } else {
-                result += c;  // non-letter characters stay the same
+                result += c; // Non-letter characters remain unchanged
             }
         }
         return result;
-
-
     }
     
     /**
-     * This function makes the decryption of the entered text wıthout decrypt the numeric values 
-     * @return returns the decrypted value
-    */
+     * Decrypts the input text by shifting alphabetic characters by a specified key
+     * in the opposite direction, while leaving numeric values unchanged.
+     * Non-alphabetic characters are unaffected.
+     * 
+     * @return the decrypted text, or an empty string if the key is out of range
+     */
     private static String decrypt() {
         System.out.println("Enter an decryption key (Integer between 26 and -26): ");
         int shift = myScanner.nextInt();
@@ -447,8 +467,12 @@ public class javaproject{
         if (shift > 26 || shift < -26) {
             System.out.println("Error: shift value is outside the valid range, returning to submenu");
             C_Submenu();
-            return "";  // returning empty string if invalid input
+            return ""; // Return empty string if shift is invalid
+        } else if (shift == 0) {
+            System.out.println("You entered 0, so no decryption will be applied.");
+            return ""; // Return empty string if no shift
         }
+    
         
         System.out.println("Please enter encryption text: ");
         String text = myScanner.nextLine();
@@ -472,55 +496,97 @@ public class javaproject{
     */
     private static void tictakteo_main()
     {
-		char [][] gameBoard = { //gameBoard is represented by 2D array for the structure of the game. Vertical I and horizontal - and +'s separate cells
-				{' ', '|', ' ', '|', ' '},
-				{'-', '+', '-', '+', '-'},
-				{' ', '|', ' ', '|', ' '},
-				{'-', '+', '-', '+', '-'},
-				{' ', '|', ' ', '|', ' '}
-				}; 	
 		
-		printGameBoard(gameBoard); //empty for now
-		
-		//player 1 (X) starts the game.
-		while(true) { //game runs in an infinite while loop until a winner is declared or has a tie
-			 int player1Pos = getPlayerPosition("Player X", gameBoard); //getPlayerPosition method is called to get a valid position from the player
-	            placePiece(gameBoard, player1Pos, "player 1"); //placePiece method is called to place the mark on the board
-	            turnCount++; //then we increase the counter because a player made a move
+        boolean playAgain = true; //for enabling replay capability, we add a playAgain flag
+        
+        while (playAgain) 
+        { //we add a while loop that continues until the player chooses to return main menu
+            resetGame(); //resets positions and counts before each new game
+            
+            char [][] gameBoard = { //gameBoard is represented by 2D array for the structure of the game. Vertical I and horizontal - and +'s separate cells
+                    {'1', ' ', ' ', ' ', ' ', '|', '2', ' ', ' ', ' ', ' ', '|', '3', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '},
+                    {'-', '-', '-', '-', ' ', '+', '-', '-', '-', '-', ' ', '+', '-', '-', '-', '-', ' '},
+                    {'4', ' ', ' ', ' ', ' ', '|', '5', ' ', ' ', ' ', ' ', '|', '6', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '},
+                    {'-', '-', '-', '-', ' ', '+', '-', '-', '-', '-', ' ', '+', '-', '-', '-', '-', ' '},
+                    {'7', ' ', ' ', ' ', ' ', '|', '8', ' ', ' ', ' ', ' ', '|', '9', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '},
+                    {' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' ', '|', ' ', ' ', ' ', ' ', ' '}
+                    };
+            
+            printGameBoard(gameBoard); //empty for now
+            
+            //player 1 (X) starts the game.
+            while(true) { //game runs in an infinite while loop until a winner is declared or has a tie
+                int player1Pos = getPlayerPosition("Player 1 (X)", gameBoard); //getPlayerPosition method is called to get a valid position from the player
+                    placePiece(gameBoard, player1Pos, "player 1 (X)"); //placePiece method is called to place the mark on the board
+                    turnCount++; //then we increase the counter because a player made a move
 
-	            String result = checkEnd(); //checkEnd method determines if there's a winner or a tie, 
-	            if (result.length() > 0) { // if a result is found, it breaks out of the game loop and prints the result sentence
-	                System.out.println(result);
-	                break;
-	            }
+                    String result = checkEnd(); //checkEnd method determines if there's a winner or a tie, 
+                    if (result.length() > 0) {
+                        // if a result is found, it breaks out of the game loop and prints the result sentence
+                        printGameBoard(gameBoard);
+                        System.out.println(result);
+                        break;
+                    }
+                    
+                    printGameBoard(gameBoard); //if not, it prints the X's move and goes on
 
-	            printGameBoard(gameBoard); //if not, it prints the X's move and goes on
+                    // Player 2's (O) turn
+                    int player2Pos = getPlayerPosition("Player 2 (O)", gameBoard); //this time we're calling the getPlayerPosition but this time for player 2 (o), to get a valid position from the second player
+                    placePiece(gameBoard, player2Pos, "player 2 (O)"); //then the placePiece to mark O on the board
+                    turnCount++; //we increase the counter
 
-	            // Player 2's (O) turn
-	            int player2Pos = getPlayerPosition("Player O", gameBoard); //this time we're calling the getPlayerPosition but this time for player 2 (o), to get a valid position from the second player
-	            placePiece(gameBoard, player2Pos, "player 2"); //then the placePiece to mark O on the board
-	            turnCount++; //we increase the counter
+                    result = checkEnd(); //once again we're checking if the game has ended to print result
+                    if (result.length() > 0) {
+                        printGameBoard(gameBoard);
+                        System.out.println(result);
+                        break;
+                    }
+                    printGameBoard(gameBoard); //if there's no result, we print the gameBoard with an O mark inside
+                } //while ending
+                
+                int replayChoice = -1;
+                System.out.println("Do you want to play again ? (1 to play again, 0 to return to main menu)");
+                while (replayChoice != 1 && replayChoice != 0)
+                {
+                    System.out.println("Please enter your choice 1 to replay. 0 to return to main menu");
+                    replayChoice = myScanner.nextInt();
+                }
 
-	            result = checkEnd(); //once again we're checking if the game has ended to print result
-	            if (result.length() > 0) {
-	                System.out.println(result);
-	                break;
-	            }
-	            printGameBoard(gameBoard); //if there's no result, we print the gameBoard with an O mark inside
-	         //while ending
-	    }
-    }
+                if(replayChoice == 1)
+                    playAgain =true;
+                else
+                    playAgain = false;
+                
+        }
+	}
     
     /**
-    * Prompts the specified player to enter their placement on the game board.
-    * Validates the input to ensure it's an integer between 1 and 9,
-    * and checks if the position is already taken.
-    *
-    * @param player The name of the player (e.g., "Player 1" or "Player 2").
-    * @param gameBoard The current state of the game board represented as a 2D character array.
-    * @return The validated position chosen by the player.
-    * @throws InputMismatchException If the input is not an integer.
-    */
+     * Resets the game variables for a new round
+     */
+    public static void resetGame() { //with this method, we reset the game variables for a new round
+        flush_terminal();
+        player1Positions = new int[9];
+        player2Positions = new int[9];
+        player1PositionCount = 0;
+        player2PositionCount = 0;
+        turnCount = 0;
+    }
+    /**
+     * Prompts the specified player to enter their placement on the game board.
+     * Validates the input to ensure it's an integer between 1 and 9,
+     * and checks if the position is already taken.
+     *
+     * @param player    The player who is making the move ("Player 1" or "Player 2")
+     * @param scan      The scanner object to read user input
+     * @param gameBoard The current state of the game board
+     * @return The position chosen by the player (1-9)
+     * @throws InputMismatchException if the input is not an integer.
+     */
 	public static int getPlayerPosition(String player, char[][] gameBoard) 
     { //String Player is going to print if it's player 1 (X) or player 2 (0), scanner for input reading and current state of the board
 		int playerPos = 0; //the position initially set to 0 to indicate no valid selection has been made yet
@@ -567,9 +633,9 @@ public class javaproject{
 	} //getPlayerPosition ending
 
     /**
-    * Prints the current state of the game board to the console.
-    *
-    * @param gameBoard The current state of the game board represented as a 2D character array.
+     * Prints the current state of the game board
+     *
+     * @param gameBoard The current state of the game board
     */
 	public static void printGameBoard(char [][] gameBoard) 
     {
@@ -580,25 +646,25 @@ public class javaproject{
 		System.out.println(); //after finishing all the characters in a row, this line prints a newline character
 	  }
 	}
-    /**
-    * Places a player's symbol on the game board at the specified position.
-    *
-    * @param gameBoard The current state of the game board represented as a 2D character array.
-    * @param pos The position on the board where the player wants to place their symbol (1-9).
-    * @param user The name of the player (either "player 1" or "player 2").
-    */
+	/**
+     * Places the player's symbol ('X' or 'O') on the game board
+     *
+     * @param gameBoard The current state of the game board
+     * @param pos       The position chosen by the player (1-9)
+     * @param user      The player making the move ("player 1" or "player 2")
+     */
     public static void placePiece(char [][] gameBoard, int pos, String user) { //defined int pos is representing the position where the player wants to place their symbol
 		
 		char symbol = ' ';
 		
-		if (user.equals("player 1")) {
+		if (user.equals("player 1 (X)")) {
 			symbol = 'X';
 			player1Positions[player1PositionCount] = pos; //the current position is recorded in the player1Positions array (for the X), this indicates that the move will be stored at the index equal to player1PositionCount
 			                                              //for example player 1 (X) chooses cell no 3 in the first round --> player1Positions[0]=3 which is (3,0,0,0,0,0,0,0,0)
 			                                              //then chooses 5 in the second round --> player1Positions[1]=5 which is (3,5,0,0,0,0,0,0,0)
 			player1PositionCount++; //then we increase the counter for player 1
 			
-		} else if (user.equals("player 2")) { //same arrangements is for player 2 (O) continues
+		} else if (user.equals("player 2 (O)")) { //same arrangements is for player 2 (O) continues
 			symbol = 'O';
 			player2Positions[player2PositionCount] = pos;
 			player2PositionCount++;
@@ -607,37 +673,39 @@ public class javaproject{
 		
 		
 		switch(pos) { //switch statement updates the array based on the selected cell (pos)
-		case 1:
-		    gameBoard[0][0] = symbol; //1st cell
-		    break;
-		case 2:
-		    gameBoard[0][2] = symbol; //2nd cell
-		    break;
-		case 3:
-		    gameBoard[0][4] = symbol; //3rd cell
-		    break;
-		case 4:
-		    gameBoard[2][0] = symbol; //4th cell
-		    break;
-		case 5:
-		    gameBoard[2][2] = symbol; //5th cell
-		    break;
-		case 6:
-		    gameBoard[2][4] = symbol; //6th cell
-		    break;
-		case 7:
-		    gameBoard[4][0] = symbol; //7th cell
-		    break;
-		case 8:
-		    gameBoard[4][2] = symbol; //8th cell
-		    break;
-		case 9:
-		    gameBoard[4][4] = symbol; //and 9th cell
-		    break;
-		default:
-			break;
-		} //other combinations like [0][1],[2][1],[4][3]... are the separators of the gameBoard	(|,-,+)
-	} //placePiece ending
+
+            case 1:
+                gameBoard[1][2] = symbol; // 1st cell (upper-left)
+                break;
+            case 2:
+                gameBoard[1][8] = symbol; // 2nd cell (upper-middle)
+                break;
+            case 3:
+                gameBoard[1][14] = symbol; // 3rd cell (upper-right)
+                break;
+            case 4:
+                gameBoard[5][2] = symbol; // 4th cell (middle-left)
+                break;
+            case 5:
+                gameBoard[5][8] = symbol; // 5th cell (center)
+                break;
+            case 6:
+                gameBoard[5][14] = symbol; // 6th cell (middle-right)
+                break;
+            case 7:
+                gameBoard[9][2] = symbol; // 7th cell (bottom-left)
+                break;
+            case 8:
+                gameBoard[9][8] = symbol; // 8th cell (bottom-middle)
+                break;
+            case 9:
+                gameBoard[9][14] = symbol; // 9th cell (bottom-right)
+                break;
+            default:
+                break;
+            } //other combinations like [0][3],[2][1],[4][3]... are the separators or the spaces of the gameBoard	(, ,|,-,+)
+        } //placePiece ending
+        
 
     public static int[][] winningCombinations = 
     {
@@ -651,14 +719,14 @@ public class javaproject{
         {7, 5, 3}  //diagonal 2
     };
 
-    /**
-    * Checks if the given positions contain all the positions of a winning combination.
-    *
-    * @param positions The array of positions occupied by a player.
-    * @param count The number of occupied positions.
-    * @param winningCombination The winning combination to check against.
-    * @return true if all positions in the winningCombination are found in positions; false otherwise.
-    */
+	/**
+     * Checks whether a player has a winning combination of positions
+     *
+     * @param positions The array of positions selected by a player
+     * @param count     The number of moves made by the player so far
+     * @param winningCombination The winning combination of positions to check
+     * @return true if the player has all positions in the winning combination, false otherwise
+     */
     public static boolean containsAll(int[] positions, int count, int[] winningCombination) 
     { //this method iterates through each position in the winningCombination
 	    for (int pos : winningCombination) { //for each position,
@@ -676,18 +744,19 @@ public class javaproject{
 	    return true; //if all positions in the winningCombination are found, it returns true
 	}	
 
-    /**
-    * Checks the current state of the game to determine if there's a winner or a tie.
-    *
-    * @return A string indicating the result of the game: "Player X won!", "Player O won!", "TIE!", or an empty string if the game is still ongoing.
-    */
-    public static String checkEnd() {
-		
+	/**
+     * Checks whether the game has ended in a win or tie, based on the current game state
+     *
+     * @return A string describing the result of the game (either "Player 1 won!", "Player 2 won!", or "TIE!"), or an empty string if the game has not yet ended
+     */
+    public static String checkEnd() 
+    {
+        flush_terminal();
 		for (int[] winningCombination : winningCombinations) {
 	        if (containsAll(player1Positions, player1PositionCount, winningCombination)) { //for each combination it calls the containsAll method
-	            return "Player X won!" + " Total turns: " + turnCount; //if ContainsAll method return true for player1Positions, it means X won
+	            return "Player 1 (X) won!" + " Total turns: " + turnCount; //if ContainsAll method return true for player1Positions, it means X won
 	        } else if (containsAll(player2Positions, player2PositionCount, winningCombination)) {
-	            return "Player O won!" + " Total turns: " + turnCount; //if ContainsAll method return true for player2Positions, it means O won
+	            return "Player 2 (O) won!" + " Total turns: " + turnCount; //if ContainsAll method return true for player2Positions, it means O won
 	        }
 	    }
 	    
@@ -698,7 +767,36 @@ public class javaproject{
 	    return "";
 	} //checkEnd ending
 
-
+    public static int displaySubmenu_chose () 
+    {
+        boolean flag6= true;
+        int chose = 0;
+        while(flag6)
+        {
+            
+            try
+            {
+                System.out.println("[1] Transpose Matrix");
+                System.out.println("[2] Matrix Multiplication");
+                System.out.println("[3] Element-wise Multiplication");
+                System.out.println("[4] Inverse");
+                System.out.println("[5] Return to the main menu");
+                System.out.print("Select one of the matrix operations: ");
+                chose = myScanner.nextInt();
+                if(chose > 0 && chose < 6)
+                    flag6 = false;
+                else
+                {
+                    System.out.println("Invalid input!!");
+                }
+            }catch(InputMismatchException e)
+            {
+                System.out.println("Invalid input!!");
+                myScanner.next();
+            }
+        }
+        return chose;
+    }
     public static double[][] mat_filling(int mat_row, int mat_col)
     {
         double[][] ans = new double[mat_row][2*mat_col];
@@ -707,7 +805,7 @@ public class javaproject{
                         
         int row_counter = 0;
         int col_counter = 0;
-
+        
         while(flag)
         {
             try
@@ -720,6 +818,7 @@ public class javaproject{
                     flag = false;
                     
                 ans[row_counter][col_counter] = element;
+                
                 col_counter++;
 
     
@@ -740,79 +839,117 @@ public class javaproject{
     }
 
     //function for transpose
-    public static void mat_transpose(double[][] mat1, double[][] mat2,int mat1_row, int mat1_col, int mat2_row,int mat2_col)
+    public static void mat_transpose()
     {
-        System.out.println("matrix 1 transpose: ");
-        //using col_mat at the outer loop because not to get a out of bound. the matrix is not only square 
-        for(int i = 0; i < mat1_col; i++)
+        int row_mat = -1;
+        while(row_mat <= 0)
         {
-            for(int j = 0; j< mat1_row;j++ )
+            System.out.println("Please enter the row size of the matrix (positive number)");
+            row_mat = myScanner.nextInt();
+        }
+        int col_mat = -1;
+        while(col_mat <= 0)
+        {
+            System.out.println("Please enter the column size of the matrix (positive number)");
+            col_mat = myScanner.nextInt();
+        }
+
+
+        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+        System.out.println();
+        double[][] mat1 = new double[row_mat][2*col_mat];
+        mat1 = mat_filling(row_mat, col_mat);
+
+        flush_terminal();
+        System.out.println("matrix transpose: ");
+        //using col_mat at the outer loop because not to get a out of bound. the matrix is not only square 
+        for(int i = 0; i < col_mat; i++)
+        {
+            for(int j = 0; j< row_mat;j++ )
             {
                 System.out.print(mat1[j][i] + " ");
             }
             System.out.println();
         }
 
-        System.out.println("matrix 2 transpose: ");
 
-        for(int i = 0; i < mat2_col; i++)
-        {
-            for(int j = 0; j< mat2_row;j++ )
-            {
-                System.out.print(mat2[j][i] + " ");
-            }
-            System.out.println();
-        }
     }
 
 
 
-    public static void mat_inverse_main(double[][] mat1, double[][] mat2,int mat1_row, int mat1_col, int mat2_row,int mat2_col)
+    public static void mat_inverse_main()
     {
-
-        if (mat1_row != mat1_col)
-        {
-            mat1_row= -1;
-            while(mat1_row <= 0)
-            {    
-                try
-                {
-                System.out.println("matrix 1 is not a square please enter equal for row and column: ");
-                mat1_row = myScanner.nextInt();
-                mat1_col = mat1_row;
-                mat1 = new double[mat1_row][2*mat1_col];
-                mat1 = mat_filling(mat1_row, mat1_col);
-                }catch(InputMismatchException e)
-                {
-                    System.out.println("PLease enter positive integers: ");
-                    myScanner.next(); 
+        int row_mat = -1;
+        long temp_row;
+    
+        while (row_mat <= 0) {
+            System.out.print("Please enter the row size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    row_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Row size must be a positive number within int range.");
                 }
-
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
             }
         }
-        if (mat2_col != mat2_row) 
-        {
-            mat2_row= -1;
-            while(mat2_row <= 0)
-            {
-                try
-                {
-                System.out.println("matrix 2 is not a square please enter equal for row and column: ");
-                mat2_row = myScanner.nextInt();
-                mat2_col = mat2_row;
-                mat2 = new double[mat2_row][2*mat2_col];
-                mat2 = mat_filling(mat2_row, mat2_col);
-                }catch(InputMismatchException e)
-                {
-                    System.out.println("PLease enter positive integers: ");
-                    myScanner.next(); 
-                }
         
+        int col_mat = -1;
+       
+        while (col_mat <= 0) {
+            System.out.print("Please enter the column size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    col_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Column size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
             }
         }
 
-        inverse_mat(mat1, mat1_row, mat1_col);
-        inverse_mat(mat2, mat2_row, mat2_col);
+        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+        System.out.println();
+
+        double[][] mat1;
+        mat1 = mat_filling(row_mat, col_mat);
+
+        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+        System.out.println();    
+
+
+        if (row_mat != col_mat)
+        {
+            row_mat = -1;
+        
+            while (row_mat <= 0) {
+                System.out.print("Please enter the row size of the matrix (positive number): ");
+                
+                try {
+                    temp_row = myScanner.nextLong();
+                    if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                        row_mat = (int) temp_row;
+                    } else {
+                        System.out.println("Invalid input! Row size must be a positive number within int range.");
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("Invalid input! Please enter a numeric value.");
+                    myScanner.next(); // Clear the invalid input
+                }
+            }
+        }
+
+
+        inverse_mat(mat1, row_mat, col_mat);
+
 
     }
     public static void inverse_mat(double[][] mat,int mat_row,int mat_col)
@@ -877,8 +1014,9 @@ public class javaproject{
                 mat[i][j] = mat[i][j] / temp;
             }
         }
-
+        flush_terminal();
         //printing
+        System.out.println("Inverse of Matrix");
         for (int i = 0; i < mat_row; i++) {
             for (int j = mat_row; j < (2*mat_row); j++) {
                 System.out.printf("%.3f  ", mat[i][j]);
@@ -889,29 +1027,117 @@ public class javaproject{
     }
 
     
-    public static void mat_multiple(double[][] mat1, double[][] mat2,int mat1_row, int mat1_col, int mat2_row,int mat2_col)
+    public static void mat_multiple()
     {
-        if (mat1_col != mat2_row)
-        {
-            System.out.println("can not be multipled! mat1_col != mat2_row");
-            System.out.println("Changing matrix 2 size and elements...");
-            mat2_col = -1;
-            while(mat2_col <= 0)
-            {
-                System.out.println("Please enter the column size of the matrix 2 (positive number)");
-                mat2_col = myScanner.nextInt();
+        int row_mat = -1;
+        long temp_row;
+    
+        while (row_mat <= 0) {
+            System.out.print("Please enter the row size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    row_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Row size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
             }
-            mat2 = mat_filling(mat1_col, mat2_col);
+        }
+        
+        int col_mat = -1;
+       
+        while (col_mat <= 0) {
+            System.out.print("Please enter the column size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    col_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Column size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
+            }
         }
 
-        double[][] ans = new double[mat1_row][mat2_col];
+        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+        System.out.println();
+
+        double[][] mat1;
+        mat1 = mat_filling(row_mat, col_mat);
+
+        int row_mat2 = -1;
+        long temp_row2;
+        // Prompt for row size
+        while (row_mat2 <= 0) {
+            System.out.print("Please enter the row size of the matrix (positive number): ");
+            
+            try {
+                temp_row2 = myScanner.nextLong();
+                if (temp_row2 > 0 && temp_row2 <= Integer.MAX_VALUE) {
+                    row_mat2 = (int) temp_row2;
+                } else {
+                    System.out.println("Invalid input! Row size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
+            }
+        }
+        
+        int col_mat2 = -1;
+        // Prompt for column size
+        while (col_mat2 <= 0) {
+            System.out.print("Please enter the column size of the matrix (positive number): ");
+            
+            try {
+                temp_row2 = myScanner.nextLong();
+                if (temp_row2 > 0 && temp_row2 <= Integer.MAX_VALUE) {
+                    col_mat2 = (int) temp_row2;
+                } else {
+                    System.out.println("Invalid input! Column size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
+            }
+        }
+
+        System.out.printf("the size of row is %d and column is %d ",row_mat2,col_mat2);
+        System.out.println();
+
+        if (col_mat != row_mat2)
+        {
+            System.out.println("can not be multipled! matrix 1 col is not equal to matrix 2 row!");
+            System.out.println("Changing matrix 2 size and elements...");
+            col_mat2 = -1;
+            while(col_mat2 <= 0)
+            {
+                System.out.println("Please enter the column size of the matrix 2 (positive number)");
+                col_mat2 = myScanner.nextInt();
+            }
+        }
+        double[][] mat2;
+        mat2 = mat_filling(row_mat2, col_mat2);
+
+        
+
+        flush_terminal();
+
+        double[][] ans = new double[row_mat][col_mat2];
 
         System.out.println("MATRIX MULTIPLICATION");        
-        for(int i = 0;i < mat1_row; i++)
+        for(int i = 0;i < row_mat; i++)
         {
-            for(int j = 0; j < mat2_col; j++)
+            for(int j = 0; j < col_mat2; j++)
             {
-                for(int k = 0; k < mat1_col;k++)
+                for(int k = 0; k < col_mat;k++)
                 {
                     ans[i][j] += mat1[i][k] * mat2[k][j]; 
                 }
@@ -921,34 +1147,68 @@ public class javaproject{
         }
     }
 
-    public static void element_wise_multiple(double[][] mat1, double[][] mat2,int mat1_row, int mat1_col, int mat2_row,int mat2_col)
+    public static void element_wise_multiple()
     {
-        if(mat1_row != mat2_row || mat1_col != mat2_col)
-        {
-            mat2_row = -1;
-            while(mat2_row <= 0)
-            {
-                System.out.println("Please enter the row size of the matrix 2 (positive number)");
-                mat2_row = myScanner.nextInt();
+        int row_mat = -1;
+        long temp_row;
+        // Prompt for row size
+        while (row_mat <= 0) {
+            System.out.print("Please enter the row size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    row_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Row size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
             }
-
-            mat2_col = -1;
-            while(mat2_col <= 0)
-            {
-                System.out.println("Please enter the column size of the matrix  2 (positive number)");
-                mat2_col = myScanner.nextInt();
-            }
-
-            System.out.printf("the size of row is %d and column is %d ",mat2_row,mat2_col);
-            System.out.println();
-            mat2 = mat_filling(mat2_row, mat2_col);
         }
+
+        int col_mat = -1;
+        // Prompt for column size
+        while (col_mat <= 0) {
+            System.out.print("Please enter the column size of the matrix (positive number): ");
+            
+            try {
+                temp_row = myScanner.nextLong();
+                if (temp_row > 0 && temp_row <= Integer.MAX_VALUE) {
+                    col_mat = (int) temp_row;
+                } else {
+                    System.out.println("Invalid input! Column size must be a positive number within int range.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter a numeric value.");
+                myScanner.next(); // Clear the invalid input
+            }
+        }
+
+
+        System.out.printf("the size of row is %d and column is %d ",row_mat,col_mat);
+        System.out.println();
+
+        double[][] mat1;
+        mat1 = mat_filling(row_mat, col_mat);
+
+        System.out.println("Enter the elements for second matrix");
+
+        int row_mat2 = row_mat;
+        int col_mat2 = col_mat;
+
+
         
-        double[][] ans = new double[mat1_row][mat1_col];
+        double[][] mat2;
+        mat2 = mat_filling(row_mat2, col_mat2);
+
+        flush_terminal();
+        double[][] ans = new double[row_mat][col_mat];
         System.out.println("ELEMENT WISE MULTIPLICATION");
-        for(int i = 0; i < mat1_row;i++)
+        for(int i = 0; i < row_mat;i++)
         {
-            for(int j = 0; j < mat1_col; j++)
+            for(int j = 0; j < col_mat; j++)
             {
                 ans[i][j] = mat1[i][j] * mat2[i][j];
                 System.out.print(ans[i][j] + " ");
