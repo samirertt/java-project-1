@@ -1,0 +1,74 @@
+==== CONFIGS ====		
+{
+    "base_path": "c:\\Users\\HP\\Desktop\\java-project-1",
+    "out": "c:\\Users\\HP\\Desktop\\java-project-1\\javadoc",
+    "javadoc_executable": "C:\\Program Files\\Java\\jdk-23\\bin\\javadoc.exe",
+    "exclude": [],
+    "raw_params": ""
+}
+
+==== COMMAND ====
+"C:\Program Files\Java\jdk-23\bin\javadoc.exe" 
+	-sourcepath "c:\Users\HP\Desktop\java-project-1" 
+	-d "c:\Users\HP\Desktop\java-project-1\javadoc" 
+	"c:\Users\HP\Desktop\java-project-1\Group11.java"
+
+
+==== JAVADOC OUTPUT ====
+Loading source file c:\Users\HP\Desktop\java-project-1\Group11.java...
+Constructing Javadoc information...
+Creating destination directory: "c:\Users\HP\Desktop\java-project-1\javadoc\"
+Building index for all the packages and classes...
+Standard Doclet version 23+37-2369
+Building tree for all the packages and classes...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\Group11.html...
+c:\Users\HP\Desktop\java-project-1\Group11.java:39: warning: no description for @param
+     * @param args
+       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:366: warning: no @param for counter
+    public static double harmonic_func(double[] arr , int size_of_array, int counter)
+                         ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:585: error: @param name not found
+     * @param scan      The scanner object to read user input
+              ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:710: warning: no comment
+    public static int[][] winningCombinations = 
+                          ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:10: warning: use of default constructor, which does not provide a comment
+public class Group11{
+       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:770: warning: no comment
+    public static int displaySubmenu_chose () 
+                      ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:1150: warning: no comment
+    public static void element_wise_multiple()
+                       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:955: warning: no comment
+    public static void inverse_mat(double[][] mat,int mat_row,int mat_col)
+                       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:800: warning: no comment
+    public static double[][] mat_filling(int mat_row, int mat_col)
+                             ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:880: warning: no comment
+    public static void mat_inverse_main()
+                       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:1030: warning: no comment
+    public static void mat_multiple()
+                       ^
+c:\Users\HP\Desktop\java-project-1\Group11.java:842: warning: no comment
+    public static void mat_transpose()
+                       ^
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\package-summary.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\package-tree.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\overview-tree.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\allclasses-index.html...
+Building index for all classes...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\allpackages-index.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\index-all.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\search.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\index.html...
+Generating c:\Users\HP\Desktop\java-project-1\javadoc\help-doc.html...
+1 error
+11 warnings
+
+

@@ -7,7 +7,7 @@ import java.util.Scanner;
  * matrix operations, text encryption/decryption,
  * and a Tic-tac-toe game
  */
-public class javaproject{
+public class Group11{
     
 	/**
      * Array to hold the positions chosen by Player 1 (X)
