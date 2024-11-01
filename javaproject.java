@@ -1,6 +1,6 @@
-import java.util.Scanner;
-import java.util.InputMismatchException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 /** 
  * This class javaproject provides command-line interference for the user for operations like: Statistical Information about an array,
@@ -478,14 +478,14 @@ public class javaproject{
         String text = myScanner.nextLine();
         
         String result = "";
+        // Encrypt each character in the text
         for (int i = 0; i < text.length(); i++) {
             char c = text.charAt(i);
-    
             if (Character.isLetter(c)) {
-                int new_AscII = c - shift;
-                result += (char)((new_AscII)% 128);
+                char base = Character.isLowerCase(c) ? 'a' : 'A';
+                result += (char)((((c - base - shift) + 26) % 26) + base); // Apply Caesar shift
             } else {
-                result += c;  // non-letter characters stay the same
+                result += c; // Non-letter characters remain unchanged
             }
         }
         return result;
