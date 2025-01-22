@@ -1,1 +1,1 @@
-# java-project-1
+This project is a console-based application developed in Java. It offers a range of functionalities, including advanced statistical calculations, matrix operations, secure text encryption/decryption, and an interactive Tic-Tac-Toe game.
